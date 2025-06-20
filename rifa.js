@@ -1,13 +1,13 @@
-const sheetId = '1ydMC63EcxJZSfh7B59O-ts2p-_V_TTFqGIFuqrkKXlk';
+const sheetId = '1ydMC63EcxJZSfh7B59O-ts2p-_V_TTFqGIFuqrYpI';
 const sheetName = 'Página1';
 
 const targetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+const proxyUrl = 'https://api.allorigins.win/raw?url=';
 
-const whatsappNumber = '5514998838837'; // Troque pelo seu número real
+const whatsappNumber = '5514998838837';
 let numerosSelecionados = [];
 
-fetch(proxyUrl + targetUrl)
+fetch(proxyUrl + encodeURIComponent(targetUrl))
     .then(response => response.text())
     .then(data => {
         const json = JSON.parse(data.substr(47).slice(0, -2));
@@ -41,7 +41,7 @@ fetch(proxyUrl + targetUrl)
             grid.appendChild(div);
         });
 
-        // Atualizar contador de status
+        // Atualizar contador
         document.getElementById('contador').innerText = `Total: ${total} | Vendidos: ${vendidos} | Disponíveis: ${disponiveis}`;
 
         // Atualizar barra de progresso
