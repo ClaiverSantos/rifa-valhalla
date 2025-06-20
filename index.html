@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Rifa Interativa - Estilo Cinema</title>
+    <link rel="stylesheet" href="rifa.css">
+    <script src="https://cdn.jsdelivr.net/npm/tabletop@1.6.0/src/tabletop.min.js"></script>
+</head>
+<body>
+    <div id="statusRifa">
+        <p id="contador">Carregando status da rifa...</p>
+        <div id="barraProgresso">
+            <div id="progressoInterno"></div>
+        </div>
+    </div>
+
+<h2>🎟️ Escolha seus números da Rifa</h2>
+    <header>
+        <img src="logo-valhalla.png" alt="Logo da Equipe Valhalla FSAE" id="logoEquipe">
+    </header>
+<p>Clique nos círculos verdes para selecionar seus números.</p>
+
+<div id="gridRifa"></div>
+
+<button id="btnReservar" style="display:none;">Reservar via WhatsApp</button>
+
+<script src="rifa.js"></script>
+
+</body>
+</html>

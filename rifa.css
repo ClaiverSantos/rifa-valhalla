@@ -1,0 +1,119 @@
+body {
+    font-family: 'Oswald', sans-serif;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #fff;
+    text-align: center;
+    background-image: url('fundo-metal.png'); /* Se quiser um fundo com textura */
+    background-size: cover;
+}
+
+header img {
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #ffcc00;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+#gridRifa {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.numero {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: 0.2s;
+    border: 2px solid #888;
+    box-shadow: 0 0 5px #000;
+}
+
+.disponivel {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.vendido {
+    background-color: #555;
+    color: #ccc;
+    cursor: not-allowed;
+    border-color: #333;
+}
+
+.selecionado {
+    background-color: #3498db;
+    color: white;
+    border-color: #3498db;
+    box-shadow: 0 0 8px #3498db;
+}
+
+#btnReservar {
+    margin-top: 20px;
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+#btnReservar:hover {
+    background-color: #d35400;
+}
+#statusRifa {
+    margin: 20px auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+#barraProgresso {
+    background-color: #555;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 20px;
+    margin-top: 10px;
+}
+
+#progressoInterno {
+    height: 100%;
+    background-color: #4CAF50;
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Animação nas bolinhas selecionadas */
+.selecionado {
+    animation: pulsar 0.5s ease-out;
+}
+
+@keyframes pulsar {
+    0% { transform: scale(1); box-shadow: 0 0 5px #3498db; }
+    50% { transform: scale(1.2); box-shadow: 0 0 15px #3498db; }
+    100% { transform: scale(1); box-shadow: 0 0 8px #3498db; }
+}
+#logoEquipe {
+    max-width: 200px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
