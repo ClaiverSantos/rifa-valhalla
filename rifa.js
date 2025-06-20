@@ -4,7 +4,7 @@ const sheetName = 'Página1';
 const targetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
-const whatsappNumber = '5599999999999'; // Troque pelo seu número real
+const whatsappNumber = '5514998838837'; // Troque pelo seu número real
 let numerosSelecionados = [];
 
 fetch(proxyUrl + targetUrl)
