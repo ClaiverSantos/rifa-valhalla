@@ -19,6 +19,11 @@ h2 {
     letter-spacing: 1px;
     margin-bottom: 10px;
 }
+h3 {
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-bottom: 1px;
+}
 
 #gridRifa {
     display: flex;
@@ -112,7 +117,7 @@ h2 {
     100% { transform: scale(1); box-shadow: 0 0 8px #3498db; }
 }
 #logoEquipe {
-    max-width: 200px;
+    max-width: 400px;
     margin-bottom: 20px;
     margin-top: 10px;
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
