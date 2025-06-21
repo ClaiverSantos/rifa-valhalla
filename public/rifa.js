@@ -1,42 +1,56 @@
 const whatsappNumber = '5514998838837'; // Seu número do WhatsApp
 let numerosSelecionados = [];
 
-// URL do seu backend (substitua pela sua URL real)
-const BACKEND_URL = 'https://projeto-rifa-i5zxmilh8-claiver-santos-projects.vercel.app'; // 👈 Substitua pelo seu URL
+// URL do seu backend - inclua a rota completa /rifa-data
+const BACKEND_URL = 'https://projeto-rifa-i5zxmilh8-claiver-santos-projects.vercel.app/rifa-data';
 
 async function carregarDadosDaRifa() {
   try {
-    const response = await fetch(BACKEND_URL);
-    if (!response.ok) throw new Error('Erro na requisição: ' + response.status);
-    
+    const response = await fetch('https://projeto-rifa-i5zxmilh8-claiver-santos-projects.vercel.app/rifa-data', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
     const data = await response.json();
-    console.log('Dados recebidos:', data); // Para debug
+    console.log('Dados recebidos:', data);
     
     const grid = document.getElementById('gridRifa');
     if (!grid) throw new Error('Elemento gridRifa não encontrado');
+    
+    // Limpa o grid antes de renderizar
     grid.innerHTML = '';
     
     let total = 0;
     let vendidos = 0;
     let disponiveis = 0;
 
-    if (!data || data.length === 0) {
-      throw new Error('Nenhum dado encontrado na planilha');
+    // Verifica se os dados têm o formato esperado
+    if (!Array.isArray(data)) {
+      throw new Error('Formato de dados inválido');
     }
 
+    // Renderiza cada número
     data.forEach(row => {
-      if (row.length < 3) return;
-      
-      const numero = row[0]?.trim() || '';
-      const nome = row[1]?.trim() || '';
-      const status = (row[2]?.trim().toLowerCase()) || '';
+      if (!Array.isArray(row) || row.length < 3) return;
       
       total++;
+      const numero = row[0]?.toString().trim() || '';
+      const nome = row[1]?.toString().trim() || '';
+      const status = row[2]?.toString().toLowerCase().trim() || '';
 
       const div = document.createElement('div');
       div.classList.add('numero');
-
-      if (status.includes('disponível') || status.includes('disponivel')) {
+      
+      // Verifica se está disponível (inclui variações de escrita)
+      if (status.includes('dispon') || status === '') {
         disponiveis++;
         div.textContent = numero;
         div.classList.add('disponivel');
@@ -50,30 +64,73 @@ async function carregarDadosDaRifa() {
       grid.appendChild(div);
     });
 
-    // Atualizar contador
-    const contador = document.getElementById('contador');
-    if (contador) {
-      contador.innerText = `Total: ${total} | Vendidos: ${vendidos} | Disponíveis: ${disponiveis}`;
-    }
-
-    // Atualizar barra de progresso
-    const percentualVendido = total > 0 ? (vendidos / total) * 100 : 0;
-    const progressoInterno = document.getElementById('progressoInterno');
-    if (progressoInterno) {
-      progressoInterno.style.width = `${percentualVendido}%`;
-    }
-
-    atualizarBotao();
+    // Atualiza contadores
+    atualizarContadores(total, vendidos, disponiveis);
+    
   } catch (err) {
     console.error('Erro ao carregar os dados:', err);
-    const errorElement = document.createElement('div');
-    errorElement.style.color = 'red';
-    errorElement.textContent = 'Erro ao carregar os dados da rifa. Por favor, tente novamente mais tarde.';
-    document.body.prepend(errorElement);
+    mostrarErro('Erro ao carregar os números da rifa. Recarregue a página.');
   }
 }
 
-// Funções auxiliares (mantidas iguais)
+// Função auxiliar para atualizar contadores
+function atualizarContadores(total, vendidos, disponiveis) {
+  const contador = document.getElementById('contador');
+  if (contador) {
+    contador.innerText = `Total: ${total} | Vendidos: ${vendidos} | Disponíveis: ${disponiveis}`;
+  }
+
+  const progressoInterno = document.getElementById('progressoInterno');
+  if (progressoInterno) {
+    const percentualVendido = total > 0 ? (vendidos / total) * 100 : 0;
+    progressoInterno.style.width = `${percentualVendido}%`;
+  }
+}
+
+// Função para mostrar erros
+function mostrarErro(mensagem) {
+  const errorElement = document.createElement('div');
+  errorElement.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    background: #ff4444;
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    max-width: 80%;
+    text-align: center;
+  `;
+  errorElement.textContent = mensagem;
+  document.body.appendChild(errorElement);
+  
+  setTimeout(() => errorElement.remove(), 5000);
+}
+// Função para mostrar erros de forma amigável
+function showError(message) {
+  const errorDiv = document.createElement('div');
+  errorDiv.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    background: #ff4444;
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    max-width: 80%;
+    text-align: center;
+  `;
+  errorDiv.textContent = message;
+  document.body.appendChild(errorDiv);
+  
+  setTimeout(() => {
+    errorDiv.remove();
+  }, 5000);
+}
 function toggleSelecao(numero, elemento) {
   const index = numerosSelecionados.indexOf(numero);
   if (index > -1) {

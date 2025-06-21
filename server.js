@@ -1,22 +1,22 @@
-require('dotenv').config();
 const express = require('express');
 const { google } = require('googleapis');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Configuração do CORS
+// Configuração EXTENDIDA do CORS
 app.use(cors({
   origin: '*',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
+  methods: ['GET', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  exposedHeaders: ['Content-Length'],
+  maxAge: 86400
 }));
 
-// Middleware para evitar erro do favicon
-app.get('/favicon.ico', (req, res) => res.status(204));
+// Middleware para pré-flight requests
+app.options('*', cors());
 
-// Rota principal da API
+// Sua rota /rifa-data
 app.get('/rifa-data', async (req, res) => {
   try {
     const auth = new google.auth.GoogleAuth({
@@ -27,26 +27,26 @@ app.get('/rifa-data', async (req, res) => {
       scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
     });
 
-    const authClient = await auth.getClient();
-    const sheets = google.sheets({ version: 'v4', auth: authClient });
-
+    const sheets = google.sheets({ version: 'v4', auth: await auth.getClient() });
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.SPREADSHEET_ID,
       range: 'Página1!A2:C',
     });
 
+    // Headers manuais para garantir CORS
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Expose-Headers', 'Content-Length');
+    res.header('X-Content-Type-Options', 'nosniff');
+    
     res.json(response.data.values);
+
   } catch (error) {
-    console.error('Erro na API:', error);
-    res.status(500).json({ error: 'Erro ao acessar a planilha' });
+    console.error('Erro no backend:', error);
+    res.status(500)
+       .header('Access-Control-Allow-Origin', '*')
+       .json({ 
+         error: 'Erro interno',
+         details: process.env.NODE_ENV === 'development' ? error.message : null
+       });
   }
-});
-
-// Rota de teste
-app.get('/', (req, res) => {
-  res.send('API da Rifa Funcionando!');
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
