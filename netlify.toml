@@ -1,7 +1,0 @@
-[build]
-  publish = "public"  # Pasta que contém seus arquivos estáticos
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
