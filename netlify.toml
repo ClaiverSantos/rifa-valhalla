@@ -1,6 +1,5 @@
 [build]
-  command = "npm run build" # Se usar algum build tool
-  publish = "public" # Pasta de saída
+  publish = "public"  # Pasta que contém seus arquivos estáticos
 
 [[redirects]]
   from = "/*"
