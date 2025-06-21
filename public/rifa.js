@@ -2,7 +2,7 @@ const whatsappNumber = '5514998838837'; // Seu número do WhatsApp
 let numerosSelecionados = [];
 
 // URL do seu backend (substitua pela sua URL real)
-const BACKEND_URL = 'http://localhost:3000/rifa-data'; // Ou 'https://seu-backend.vercel.app/rifa-data'
+const BACKEND_URL = 'https://projeto-rifa-i5zxmilh8-claiver-santos-projects.vercel.app'; // 👈 Substitua pelo seu URL
 
 async function carregarDadosDaRifa() {
   try {
